@@ -77,6 +77,6 @@ Vagrant.configure(2) do |config|
     end
     server2_config.vm.provision  :shell, path: "scripts/add-users"
     server2_config.vm.provision  :reload
-    server2_config.vm.provision "shell", inline: "zypper refresh && zypper update -y && zypper install -y -t pattern gnome && systemctl set-default graphical.target && reboot"
+    #server2_config.vm.provision "shell", inline: "zypper refresh && zypper update -y && zypper install -y -t pattern gnome && systemctl set-default graphical.target && reboot"
 	end
 end
