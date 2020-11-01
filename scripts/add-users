@@ -1,0 +1,5 @@
+#!/bin/bash
+
+useradd student -p student -d /home/student -m student
+useradd student -G vagrant
+usermod root -p suse
