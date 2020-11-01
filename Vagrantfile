@@ -3,8 +3,10 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "opensuse/Leap-15.2.x86_64" 
-  #config.vm.box = "generic/opensuse15"
+   config.vm.box =  "opensuse/Leap-15.2.x86_64" 
+  #config.vm.box = "generic/opensuse15" 
+  #config.vm.box = "bento/opensuse-leap-15.2" # https://app.vagrantup.com/bento/boxes/opensuse-leap-15.2
+
   config.vagrant.plugins = [ "vagrant-timezone","vagrant-reload"]
   config.timezone.value = :host
   config.hostmanager.enabled = true
