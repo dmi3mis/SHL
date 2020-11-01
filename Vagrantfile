@@ -3,7 +3,7 @@
 
 Vagrant.configure(2) do |config|
 
-   config.vm.box =  "opensuse/Leap-15.2.x86_64" 
+  config.vm.box =  "opensuse/Leap-15.2.x86_64" 
   #config.vm.box = "generic/opensuse15" 
   #config.vm.box = "bento/opensuse-leap-15.2" # https://app.vagrantup.com/bento/boxes/opensuse-leap-15.2
 
@@ -45,10 +45,10 @@ Vagrant.configure(2) do |config|
       vbox.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
     server1_config.vm.provision  :shell, path: "scripts/add-users"
-    server1_config.vm.provision  :shell, path: "scripts/add-dns"
-    server1_config.vm.provision  "shell", inline: "zypper refresh && zypper update -y"
+    #server1_config.vm.provision  :shell, path: "scripts/add-dns"
+    #server1_config.vm.provision  "shell", inline: "zypper refresh && zypper update -y && zypper in -y virtualbox-guest\* virtualbox-host-source dkms && vboxguestconfig"
+    server1_config.vm.provision "shell", inline: "zypper install -y -t pattern gnome && systemctl set-default graphical.target && systemctl isolate graphical.target"
     server1_config.vm.provision  :reload
-    server1_config.vm.provision "shell", inline: "zypper install -y -t pattern gnome && systemctl set-default graphical.target && systemctl isolate graphical.target && reboot"
   end
   
   
