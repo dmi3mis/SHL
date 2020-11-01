@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo 172.16.1.21 server1.suse.com server1 >> /etc/hosts
+echo 172.16.1.22 server2.suse.com server1 >> /etc/hosts
+
+zypper in -y dnsmasq
+systemctl enable --now dnsmasq
+firewall-cmd --add-service=dns --permanent
+firewall-cmd --reload
