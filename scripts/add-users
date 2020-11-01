@@ -1,5 +1,5 @@
 #!/bin/bash
 
-useradd student -p student -d /home/student -m student
+useradd student -p $(echo student | openssl passwd -stdin -6) -d /home/student -m student
 useradd student -G vagrant
-usermod root -p suse
+usermod root -p $(echo suse | openssl passwd -stdin -6)
