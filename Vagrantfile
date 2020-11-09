@@ -3,16 +3,19 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box =  "opensuse/Leap-15.2.x86_64" 
+  #config.vm.box =  "opensuse/Leap-15.2.x86_64" 
   #config.vm.box = "generic/opensuse15" 
-  #config.vm.box = "bento/opensuse-leap-15.2" # https://app.vagrantup.com/bento/boxes/opensuse-leap-15.2
+  config.vm.box = "bento/opensuse-leap-15.2" # https://app.vagrantup.com/bento/boxes/opensuse-leap-15.2
 
-  config.vagrant.plugins = [ "vagrant-timezone","vagrant-reload"]
+  config.vagrant.plugins = [ "vagrant-timezone","vagrant-reload","vagrant-vbguest" ]
   config.timezone.value = :host
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.ignore_private_ip = false
   
+  config.vbguest.auto_update = true
+  config.vbguest.installer_options = { allow_kernel_upgrade: false }
+
   config.vm.provider "virtualbox" do |vbox, override|
     # vbox.gui = true
     if ENV['VBOX_VM_PATH']
@@ -40,6 +43,8 @@ Vagrant.configure(2) do |config|
       vbox.gui = true
       vbox.customize ["modifyvm", :id, "--usb", "on"]
       vbox.customize ["modifyvm", :id, "--usbehci", "on"]
+      vbox.customize ["modifyvm", :id, "--graphicscontroller",  "vmsvga"]
+      vbox.customize ["modifyvm", :id, "--ioapic",  "on"]
       vbox.customize ["modifyvm", :id, "--vram", "32"]
       vbox.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vbox.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
@@ -47,7 +52,7 @@ Vagrant.configure(2) do |config|
     server1_config.vm.provision  :shell, path: "scripts/add-users"
     #server1_config.vm.provision  :shell, path: "scripts/add-dns"
     #server1_config.vm.provision  "shell", inline: "zypper refresh && zypper update -y && zypper in -y virtualbox-guest\* virtualbox-host-source dkms && vboxguestconfig"
-    server1_config.vm.provision "shell", inline: "zypper install -y -t pattern gnome && systemctl set-default graphical.target && systemctl isolate graphical.target"
+    server1_config.vm.provision "shell", inline: "zypper install -y -t pattern gnome gnome_x11 && zypper install -y xorg-x11-fonts* && systemctl set-default graphical.target && systemctl isolate graphical.target"
     server1_config.vm.provision  :reload
   end
   
